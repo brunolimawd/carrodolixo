@@ -14,7 +14,14 @@
     "url": "http://brunolima.io"
   },
   "type": "privileged",
-  "permissions": {},
+  "permissions": {
+    "geolocation": {
+      "description": "Get geolocation"
+    },
+    "systemXHR": {
+      "description": "Required to load remote content"
+    }
+  },
   "installs_allowed_from": [
     "*"
   ],
