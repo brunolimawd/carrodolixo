@@ -5,12 +5,13 @@ window.addEventListener('DOMContentLoaded', function() {
   var translate = navigator.mozL10n.get;
   var buttonFindMe = document.getElementById('button-reload');
   var apiMaps = 'https://maps.googleapis.com/maps/api/geocode/json?';
+  var resourceIdCDR = 'f4ca6471-bb7b-4412-b248-d522948aa789'
+  var apiCDR = 'http://dados.recife.pe.gov.br/api/action/datastore_search?resource_id=' + resourceIdCDR;
   var errorMsg = document.getElementById('error');
   var results = document.getElementById('results');
   var request = null;
   var latitude = null;
   var longitude = null;
-  var distance = '5000';
 
 
   // We want to wait until the localisations library has loaded all the strings.
@@ -41,7 +42,7 @@ window.addEventListener('DOMContentLoaded', function() {
       longitude = position.coords.longitude;
 
       // Init search
-      search();
+      searchStreet();
     };
 
     function error() {
@@ -64,7 +65,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
   // Get photos by location on Instagram
-  function search() {
+  function searchStreet() {
     // Are we searching already? Then stop that search
     if(request && request.abort) {
       request.abort();
@@ -86,21 +87,21 @@ window.addEventListener('DOMContentLoaded', function() {
     request.responseType = 'json';
 
     // Return for request
-    request.addEventListener('error', onRequestError);
-    request.addEventListener('load', onRequestLoad);
+    request.addEventListener('error', onRequestStreetError);
+    request.addEventListener('load', onRequestStreetLoad);
 
     request.send();
   };
 
 
   // Request error msg
-  function onRequestError() {
+  function onRequestStreetError() {
     console.log(request.error);    
     showError(translate('searching_error'));
   };
 
   // Request and load complete
-  function onRequestLoad() {
+  function onRequestStreetLoad() {
     var response = request.response;
 
     // Check response
@@ -116,73 +117,76 @@ window.addEventListener('DOMContentLoaded', function() {
     var city = response.results[0].address_components[3].long_name;
     var street = response.results[0].address_components[1].long_name;
 
-    console.log(street + ', ' + city);
-
     if(city == 'Recife') {
+      var typeStreet = street.split(' ');
+      typeStreet = typeStreet[0];
 
+      switch(typeStreet) {
+        case 'Rua':
+          street = street.replace('Rua', 'R');
+          searchTimeTrash(street);
+          break;
+        default:
+          console.log(typeStreet);
+          break;
+      }
     } else {
       showError(translate('city_error'));
     }
+
+    results.className = '';
+  };
+
+  // Get photos by location on Instagram
+  function searchTimeTrash(street) {
+    // Are we searching already? Then stop that search
+    if(request && request.abort) {
+      request.abort();
+    }
+
+    // Show status to user
+    results.textContent = translate('searching');
+    results.className = 'searching';
+    errorMsg.className = 'hidden';
+
+    // Creat url for request
+    var term = '&limit=10&q=' + street;
+    var url = apiCDR + term;
+
+    request = new XMLHttpRequest({ mozSystem: true });
+    request.open('get', url, true);
+    request.responseType = 'json';
+
+    // Return for request
+    request.addEventListener('error', onRequestCDRError);
+    request.addEventListener('load', onRequestCDRLoad);
+
+    request.send();
+  };
+
+  // Request error msg
+  function onRequestCDRError() {
+    console.log(request.error);    
+    showError(translate('searching_error'));
+  };
+
+  // Request and load complete
+  function onRequestCDRLoad() {
+    var response = request.response;
+
+    // Check response
+    if(response === null) {
+      showError(translate('searching_error'));
+      return;
+    }
+
+    // Clear results content
+    results.textContent = '';
+    results.className = '';
+
+    var time = response.result.records[0].intervalo;
+    console.log(time);
     
-    // if(photos.length === 0) {
-    //   results.textContent = translate('search_no_results');
-    //   results.className = 'searching';
-    //   errorMsg.className = 'hidden';
-    // } else {
-    //   var listPhotos = document.createElement('ul');
-    //   results.appendChild(listPhotos);
-
-    //   photos.forEach(function(item) {
-    //     // We're using textContent because inserting content from external sources into your page using innerHTML can be dangerous.
-    //     // https://developer.mozilla.org/Web/API/Element.innerHTML#Security_considerations
-    //     var liPhoto = document.createElement('li');
-    //     var header = document.createElement('header');
-    //     var profileAvatar = document.createElement('img');
-    //     var profileName = document.createElement('h2');
-    //     var timeAgo = document.createElement('span');
-    //     var wrapPhoto = document.createElement('figure');
-    //     var photo = document.createElement('img');
-    //     var photoCaption = document.createElement('figcaption');
-    //     var photoMenu = document.createElement('menu');
-    //     var liShare = document.createElement('li');
-    //     var buttonSahre = document.createElement('button');
-
-    //     // Set values
-    //     liPhoto.className = 'photo';
-    //     profileAvatar.src = item.user.profile_picture;
-    //     profileAvatar.alt = item.user.username;
-    //     profileName.textContent = item.user.full_name;
-    //     timeAgo.className = 'time-ago';
-    //     photo.src = item.images.low_resolution.url;
-    //     if ( item.caption ) {
-    //       photoCaption.textContent = item.caption.text;  
-    //     }
-    //     photo.alt = 'Photo by ' + item.user.username;        
-    //     photoMenu.type = 'toolbar';
-    //     buttonSahre.className = 'button-share';
-    //     buttonSahre.value = item.link;
-    //     buttonSahre.textContent = 'Share';
-
-    //     // Creat photo template 
-    //     header.appendChild(profileAvatar);
-    //     header.appendChild(profileName);
-    //     header.appendChild(timeAgo);
-        
-    //     wrapPhoto.appendChild(photo);
-    //     wrapPhoto.appendChild(photoCaption);
-
-    //     liShare.appendChild(buttonSahre);
-    //     photoMenu.appendChild(liShare);
-        
-    //     liPhoto.appendChild(header);
-    //     liPhoto.appendChild(wrapPhoto);
-    //     liPhoto.appendChild(photoMenu);
-
-    //     listPhotos.appendChild(liPhoto);
-
-    //   });
-    // }
-
     results.className = '';
   };
 });
