@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "name": "Hora do lixo",
+  "name": "Carro do lixo",
   "description": "Descubra a hora que a coleta de lixo é feita na sua rua.",
   "launch_path": "/index.html",
   "icons": {

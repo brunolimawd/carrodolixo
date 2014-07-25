@@ -21,8 +21,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // Start App
   function start() {
-    geoFindMe();
-    
+   
     // Display Control msg
     results.className = 'hidden';
     errorMsg.className = 'hidden';

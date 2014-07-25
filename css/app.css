@@ -18,7 +18,7 @@ body{
 	position: absolute;
 	top: 0;
   left: 0;
-	background: #517fa4;
+	background: #125caa;
 }
 
 .header-app menu{
@@ -56,7 +56,7 @@ body{
   font-size: 2.5rem;
   line-height: 5rem;
   text-align: left;
-  color: #FFF;
+  color: #fff;
   white-space: nowrap;
   text-overflow: ellipsis;
   display: block;
@@ -146,99 +146,23 @@ body{
   display: none;
 }
 
-.photo{
+#home{
+  padding: 1.5rem;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.welcome{
   width: 100%;
-  height: auto;
-  padding: 1.5rem 0;
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid #dbdbdb;
-  list-style: none;
-}
-
-.photo:first-child{
-  padding: 0  0 1.5rem;
-}
-
-.photo:last-child{
-  border: none;
-}
-
-.photo header{
-  margin: 0 0 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.photo header img{
-  width: 6rem;
-  height: 6rem;
-  display: block;
-  margin: 0 1rem 0 0;
-  float: left;
-}
-
-.photo header h2{
-  padding: 0.5rem 0;
-  display: table-cell;
-  vertical-align: middle;
+  padding: 14.8rem 0 0 0;
+  background: url(../img/search-car.png) no-repeat center 0;
+  background-size: 12.8rem auto;
   font-size: 1.4rem;
-  color: #2c393b;
-}
-
-.photo header .time-ago{
-  display: block;
-  font-size: 1.2rem;
-  color: #858585; 
-  font-weight: lighter;
-}
-
-.photo figure img{
-  width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 0 1.5rem;
-}
-
-.photo figure figcaption{
-  margin: 0 0 1rem;
-  font-size: 1.2rem;
+  text-align: center;
   color: #858585;
 }
 
-.photo menu{
-  width: 100%;
-  height: 3rem;
-}
-
-.photo menu li{
-  margin: 0 0 0 1rem;
-  list-style: none;
-  float: right;
-}
-
-.photo menu .button-share{
-  width: 3rem;
-  height: 3rem;
-  display: block;
-  background: transparent url(../img/sprite-icons.png) no-repeat 0 -3rem;
-  background-size: 3rem auto;
-  border: none;
-  font-size: 0;
-}
-
-span.emoji{
-  width: 1.6rem;
-  height: 1.6rem;
-  display: inline-block;
-  vertical-align: baseline;
-  margin: 0 0.2rem;
-  background-size: 1.6rem;
-  background-repeat: no-repeat;
-  text-indent: -9999px;
-}
-
-img.emoji{
-  width:1rem;
-  height:1rem;
+.welcome #button-get-time{
+  width: 6rem;
+  height: 6rem;
 }
