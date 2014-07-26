@@ -8,6 +8,7 @@ window.addEventListener('DOMContentLoaded', function() {
   var resourceIdCDR = 'f4ca6471-bb7b-4412-b248-d522948aa789'
   var apiCDR = 'http://dados.recife.pe.gov.br/api/action/datastore_search?resource_id=' + resourceIdCDR;
   var errorMsg = document.getElementById('error');
+  var timeRemoveError = null;
   var results = document.getElementById('results');
   var home = document.getElementById('home');
   var status = document.getElementById('status');
@@ -37,11 +38,19 @@ window.addEventListener('DOMContentLoaded', function() {
   // Show error msg
   function showError(text) {
     errorMsg.textContent = text;
-    home.className = 'out';
+    home.className = '';
     results.className = 'out';
     status.className = 'out';
     errorMsg.className = '';
-  }
+
+    if(timeRemoveError){
+      clearTimeout(timeRemoveError);
+    }
+
+    timeRemoveError = setTimeout(function(){
+      errorMsg.className = 'out';
+    }, 5000);
+  };
 
   // Get geolocation
   function geoFindMe() {
@@ -67,13 +76,13 @@ window.addEventListener('DOMContentLoaded', function() {
   };
 
 
-  // Listening reload button
+  // Listening get-time button
   buttonFindMe.addEventListener('click', function(e) {
       geoFindMe();
   }, false);
 
 
-  // Get photos by location on Instagram
+  // Get street by location on Google Map API
   function searchStreet() {
     // Are we searching already? Then stop that search
     if(request && request.abort) {
@@ -81,10 +90,8 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     // Creat url for request
-    //var term = 'latlng=' + latitude + ',' + longitude;
-    var term = 'latlng=-8.069443,-34.899722';
+    var term = 'latlng=' + latitude + ',' + longitude;
     var url = apiMaps + term;
-    console.log(url);
 
     request = new XMLHttpRequest({ mozSystem: true });
     request.open('get', url, true);
@@ -127,6 +134,14 @@ window.addEventListener('DOMContentLoaded', function() {
           street = street.replace('Rua', 'R');
           searchTimeTrash(street);
           break;
+        case 'Avenida':
+          street = street.replace('Avenida', 'AV');
+          searchTimeTrash(street);
+          break;
+        case 'Travessa':
+          street = street.replace('Travessa', 'TV');
+          searchTimeTrash(street);
+          break;
         default:
           console.log(typeStreet);
           break;
@@ -137,7 +152,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
   };
 
-  // Get photos by location on Instagram
+  // Get schedule on CDR
   function searchTimeTrash(street) {
     // Are we searching already? Then stop that search
     if(request && request.abort) {
@@ -171,7 +186,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Check response
     if(response === null) {
-      showError(translate('searching_error'));
+      showError(translate('search_no_results'));
       return;
     }
 
