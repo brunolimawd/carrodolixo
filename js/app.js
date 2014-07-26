@@ -90,7 +90,8 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     // Creat url for request
-    var term = 'latlng=' + latitude + ',' + longitude;
+    //var term = 'latlng=' + latitude + ',' + longitude;
+    var term = 'latlng=-8.069443,-34.899722';
     var url = apiMaps + term;
 
     request = new XMLHttpRequest({ mozSystem: true });
