@@ -16,18 +16,25 @@
         <div id="container">
             <section id="main">
                 <header class="header-app">
-                    <menu type="toolbar">
-                        <button id="button-reload"><span class="icon icon-reload">Reload</span></button>
-                    </menu>
                     <h1 data-l10n-id="app_title">Carro do lixo</h1>
                 </header>
                 <div class="content">
-                    <div id="error" class="hidden"></div>
-                    <div id="results"></div>
                     <div id="home">
                         <p data-l10n-id="welcome" class="welcome">Clique no icone abaixo para saber o horário do carro do lixo na sua rua</p>
-                        <button id="button-get-time">Localizar</button>
                     </div>
+                    <div id="status" class="out">
+                        <p data-l10n-id="searching" class="msg">Buscando ...</p>
+                    </div>
+                    <div id="results" class="out">
+                        <h2 id="street-name"></h2>
+                        <p>
+                            <strong data-l10n-id="schedule">Horário:</strong> <span id="schedule"></span><br>
+                            <strong data-l10n-id="turn">Turno:</strong> <span id="turn"></span><br>
+                            <strong data-l10n-id="frequency">Frequência:</strong> <span id="frequency"></span>
+                        </p>
+                    </div>
+                    <div id="error" class="out"></div>
+                    <button id="button-get-time">Localizar</button>
                 </div>
             </section>
         </div>

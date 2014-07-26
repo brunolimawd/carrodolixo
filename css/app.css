@@ -19,37 +19,7 @@ body{
 	top: 0;
   left: 0;
 	background: #125caa;
-}
-
-.header-app menu{
-  height: 100%;
-  float: right;
-}
-
-.header-app menu button{
-  width: 5rem;
-  height: 5rem;
-  display: block;
-  padding: 1rem;
-  background:none;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: none;
-}
-
-.header-app menu button .icon{
-  width: 3rem;
-  height: 3rem;
-  display: inline-block;
-  position: relative;
-  display: block;
-  background: url(../img/sprite-icons.png) no-repeat;
-  background-size: 3rem auto;
-  font-size: 0;
-}
-
-.header-app menu button .icon-reload{
-  background-position: 0 0;
+  z-index: 4;
 }
 
 .header-app h1{
@@ -85,43 +55,6 @@ body{
   box-sizing: border-box;
 }
 
-
-@-moz-keyframes searching{
-  0%{opacity: 1;}
-  50%{opacity: 0.3;}
-  100%{opacity: 1;}
-}
-
-@keyframes searching{
-  0%{opacity: 1;}
-  50%{opacity: 0.3;}
-  100%{opacity: 1;}
-}
-
-.content .searching{
-  width: 10rem;
-  height: 12rem;
-  display: block;
-  margin: 10rem auto 0;
-  padding: 5.2rem 0 0;
-  background: url(../img/geo-icon.png) no-repeat center 0;
-  background-size: 4.2rem auto;
-  font-size: 1.2rem;
-  font-style: italic;
-  text-align: center;
-  color: #858585;
-  -moz-animation-name: searching;
-  -moz-animation-iteration-count: infinite;
-  -moz-animation-direction: alternate;
-  -moz-animation-timing-function: linear;
-  -moz-animation-duration: 700ms;
-  animation-name: searching;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-timing-function: linear;
-  animation-duration: 700ms;
-}
-
 #error {
   width: 20rem;
   height: auto;
@@ -136,25 +69,37 @@ body{
   font-size: 1.2rem;
   text-align: left;
   color: #b90000;
+  position: absolute;
+  opacity: 1;
+  transition: opacity 1.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+  z-index: 3;
 }
 
-#error.hidden{
-  display: none;
-}
-
-#results.hidden{
-  display: none;
+#error.out{
+  opacity: 0;
+  z-index: 1;
 }
 
 #home{
+  width: 100%;
   padding: 1.5rem;
+  position: absolute;
+  opacity: 1;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  transition: opacity 1.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+  z-index: 2;
 }
 
-.welcome{
+#home.out{
+  opacity: 0;
+  z-index: 1;
+}
+
+#home .welcome{
   width: 100%;
-  padding: 14.8rem 0 0 0;
+  margin: 2rem 0 0;
+  padding: 13.8rem 0 0 0;
   background: url(../img/search-car.png) no-repeat center 0;
   background-size: 12.8rem auto;
   font-size: 1.4rem;
@@ -162,7 +107,84 @@ body{
   color: #858585;
 }
 
-.welcome #button-get-time{
+#status{
+  width: 100%;
+  padding: 1.5rem;
+  position: absolute;
+  opacity: 1;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  transition: opacity 1.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+  z-index: 2;
+}
+
+#status.out{
+  opacity: 0;
+  z-index: 1;
+}
+
+#status .msg{
+  width: 100%;
+  margin: 2rem 0 0;
+  padding: 13.8rem 0 0 0;
+  background: url(../img/sync-car.gif) no-repeat center 0;
+  background-size: 12.8rem auto;
+  font-size: 1.4rem;
+  text-align: center;
+  color: #858585;
+}
+
+
+#results{
+  width: 100%;
+  padding: 16.8rem 1.5rem 1.5rem;
+  background: url(../img/ok-car.png) no-repeat center 3.5rem;
+  background-size: 12.8rem auto;
+  position: absolute;
+  opacity: 1;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  transition: opacity 1.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+  z-index: 2;
+}
+
+#results.out{
+  opacity: 0;
+  z-index: 1;
+}
+
+#results h2{
+  font-size: 2.4rem;
+  color: #125caa;
+  margin: 0 0 1rem;
+}
+
+#results p{
+  font-size: 1.4rem;
+  line-height: 2.5rem;
+}
+
+#results strong{
+  color: #125caa;
+}
+
+#results span{
+  color: #858585;
+  text-transform: capitalize;
+}
+
+#button-get-time{
   width: 6rem;
   height: 6rem;
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  margin: 0 0 0 -3rem;
+  background: #125caa url(../img/geo-icon.png) no-repeat center center;
+  background-size: 4.2rem auto;
+  border: none;
+  border-radius: 3rem;
+  text-indent: -999em;
+  z-index: 3;
+  outline: none;
 }

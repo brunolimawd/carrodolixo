@@ -3,15 +3,22 @@ window.addEventListener('DOMContentLoaded', function() {
   'use strict';
 
   var translate = navigator.mozL10n.get;
-  var buttonFindMe = document.getElementById('button-reload');
+  var buttonFindMe = document.getElementById('button-get-time');
   var apiMaps = 'https://maps.googleapis.com/maps/api/geocode/json?';
   var resourceIdCDR = 'f4ca6471-bb7b-4412-b248-d522948aa789'
   var apiCDR = 'http://dados.recife.pe.gov.br/api/action/datastore_search?resource_id=' + resourceIdCDR;
   var errorMsg = document.getElementById('error');
   var results = document.getElementById('results');
+  var home = document.getElementById('home');
+  var status = document.getElementById('status');
   var request = null;
   var latitude = null;
   var longitude = null;
+  var streetFull = null;
+  var streetName = document.getElementById('street-name');
+  var schedule = document.getElementById('schedule');
+  var turn = document.getElementById('turn');
+  var frequency = document.getElementById('frequency');
 
 
   // We want to wait until the localisations library has loaded all the strings.
@@ -23,14 +30,16 @@ window.addEventListener('DOMContentLoaded', function() {
   function start() {
    
     // Display Control msg
-    results.className = 'hidden';
-    errorMsg.className = 'hidden';
+    results.className = 'out';
+    errorMsg.className = 'out';
   };
 
   // Show error msg
   function showError(text) {
     errorMsg.textContent = text;
-    results.className = 'hidden';
+    home.className = 'out';
+    results.className = 'out';
+    status.className = 'out';
     errorMsg.className = '';
   }
 
@@ -49,9 +58,10 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
     // Show status to user
-    results.textContent = translate('locating');
-    results.className = 'searching';
-    errorMsg.className = 'hidden';
+    home.className = 'out';
+    results.className = 'out';
+    status.className = '';
+    errorMsg.className = 'out';
 
     navigator.geolocation.getCurrentPosition(success, error);
   };
@@ -69,11 +79,6 @@ window.addEventListener('DOMContentLoaded', function() {
     if(request && request.abort) {
       request.abort();
     }
-
-    // Show status to user
-    results.textContent = translate('searching');
-    results.className = 'searching';
-    errorMsg.className = 'hidden';
 
     // Creat url for request
     //var term = 'latlng=' + latitude + ',' + longitude;
@@ -109,12 +114,9 @@ window.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Clear results content
-    results.textContent = '';
-    results.className = '';
-
     var city = response.results[0].address_components[3].long_name;
     var street = response.results[0].address_components[1].long_name;
+    streetFull = street;
 
     if(city == 'Recife') {
       var typeStreet = street.split(' ');
@@ -133,7 +135,6 @@ window.addEventListener('DOMContentLoaded', function() {
       showError(translate('city_error'));
     }
 
-    results.className = '';
   };
 
   // Get photos by location on Instagram
@@ -142,11 +143,6 @@ window.addEventListener('DOMContentLoaded', function() {
     if(request && request.abort) {
       request.abort();
     }
-
-    // Show status to user
-    results.textContent = translate('searching');
-    results.className = 'searching';
-    errorMsg.className = 'hidden';
 
     // Creat url for request
     var term = '&limit=10&q=' + street;
@@ -179,13 +175,13 @@ window.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Clear results content
-    results.textContent = '';
+    // Show status to user
+    status.className = 'out';
     results.className = '';
 
-    var time = response.result.records[0].intervalo;
-    console.log(time);
-    
-    results.className = '';
+    streetName.textContent = streetFull;
+    schedule.textContent = response.result.records[0].intervalo;
+    turn.textContent = response.result.records[0].turno.toLowerCase();
+    frequency.textContent = response.result.records[0].frequencia.toLowerCase();    
   };
 });
